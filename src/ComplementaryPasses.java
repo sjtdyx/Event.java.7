@@ -13,7 +13,7 @@ public class ComplementaryPasses{
         return passID;
     }
 
-    public String setAccessLevel(String accessLevel){
+    public void setAccessLevel(String accessLevel){
         this.accessLevel=accessLevel;
     }
     public String getAccessLevel(){
