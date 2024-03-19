@@ -1,21 +1,27 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.time.LocalDate;
-
+import java.util.*;
 
 public class Event {
+    //final Capacity=200;
+    HashMap<String,Attendee>seatDetails=new HashMap<>(200,0.6f);
     private String eventID;
     private String eventName;
     private String eventVenue;
     private LocalDate eventDate;
+    
     ArrayList<Attendee>eventAttendees=new ArrayList<>();
+    
+public Event(){
+}
 
-
-    public Event(String eventID,String eventName,String eventVenue,LocalDate eventDate){
+    public Event(String eventID,String eventName,String eventVenue,LocalDate eventDate,String seatNumber){
         this .eventID=eventID;
         this. eventName=eventName;
         this.eventVenue=eventVenue;
         this.eventDate=eventDate;
+        
         this.eventAttendees=new ArrayList<>();
 
     }
@@ -59,6 +65,20 @@ public class Event {
     public void setEventDate(LocalDate eventDte) {
         this.eventDate = eventDte;
     }
+    public void setSeatDetails(String seat,Attendee attendee){
+       seatDetails.put(seat,attendee);  
+    }
+    public void  getSeatDetails(String seat){
+        System.out.println("the details for the saet"+seat+"are as follows:"+"\n"+seatDetails.get(seat));
+    }
+    
+    //public String getSeatDetails(){
+       // return seatDetails;
+    //}
+    //public void setSeatDetails(){
+       // this.seatDetails=seatDetails;
+    //}
+
     public void organizeEvent(int choice){
         Scanner reader=new Scanner(System.in);
 
@@ -95,11 +115,18 @@ public class Event {
           int age =reader.nextInt();
           reader.nextLine();//it is necessary to write this for the Int
 
-          eventAttendees.add(new Attendee(name,gender,age));          }
+          System.out.println("enter the seatNumber of the attendee:");
+          String seatNo=reader.nextLine();
+          Attendee newAttendee=new Attendee(name,gender,age,seatNo);
+
+          eventAttendees.add(new Attendee(name,gender,age,seatNo)); 
+          setSeatDetails(seatNo,newAttendee);  
+                                 }
 
           System.out.println("\n"+"all the attendee were added successfully yto the list");
+          break;
           case 3:
-          System.out.println("enter the anme of ");
+          System.out.println("enter the anme of the attendee to remove: ");
           String nameToRemove=reader.nextLine();
 
           for(Attendee attendee:eventAttendees){
@@ -108,7 +135,8 @@ public class Event {
                 break;
             }
 
-          }
+          }System.out.println("\n"+"nameToRemove"+"removed successfully from the list");
+          break;
           case 4:
           System.out.println("enter the name of the attendee you want to update");
           String nameToUpdate=reader.nextLine();
@@ -142,9 +170,22 @@ public class Event {
           System.out.println("here is the list of the attendees"+"\n"+eventAttendees);  
           break;
           case 7:
+          HandleComplementaryPasses compPass=new HandleComplementaryPasses();
+          compPass.handleComplementaryPasses();
+          break;
+          case 8:
+          HandlePerformance performance=new HandlePerformance();
+          performance.handlePerformance();
+          break;
+          case 9:
+          System.out.println("enter the seat number to find the details ");
+          String seat=reader.nextLine();
+          getSeatDetails(seat);
+          break;
+          case 10:
           break;
           default:
-          System.out.println();        
+          System.out.println("Invalid choice");        
                 }
                 reader.close();
             
